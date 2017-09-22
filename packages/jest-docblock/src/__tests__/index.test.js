@@ -256,12 +256,35 @@ describe('docblock', () => {
       os.EOL +
       ' * ' +
       os.EOL +
+      ' * @format' +
+      os.EOL +
+      ' * ' +
+      os.EOL +
       ' * world' +
       os.EOL +
       ' */';
     expect(docblock.parseWithComments(code)).toEqual({
-      comments: 'hello' + os.EOL + os.EOL + 'world',
-      pragmas: {flow: 'yes'},
+      comments: 'hello' + os.EOL + 'world',
+      pragmas: {flow: 'yes', format: ''},
+    });
+  });
+
+  it('extracts comments from end of docblock', () => {
+    const code =
+      '/**' +
+      os.EOL +
+      ' * @flow yes' +
+      os.EOL +
+      ' * @format' +
+      os.EOL +
+      ' * ' +
+      os.EOL +
+      ' * hello world' +
+      os.EOL +
+      ' */';
+    expect(docblock.parseWithComments(code)).toEqual({
+      comments: 'hello world',
+      pragmas: {flow: 'yes', format: ''},
     });
   });
 
